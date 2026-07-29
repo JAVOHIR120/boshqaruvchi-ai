@@ -1,0 +1,432 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Company {
+  id                 String   @id @default(uuid())
+  name               String
+  inn                String?
+  mfo                String?
+  account            String?
+  address            String?
+  director           String?
+  bankName           String?
+  isVatPayer         Boolean  @default(true)
+  emailNotifications Boolean  @default(true)
+  itParkResident     Boolean  @default(false)
+  officeLat          Float?
+  officeLng          Float?
+  officeRadius       Int      @default(50)
+  workStartTime      String   @default("09:00")
+  enabledModules     String[] @default(["dashboard", "pos-terminal", "crm", "tasks", "investors", "contracts", "taxes", "messages", "employees", "accounting", "inventory", "ombor-nazorati", "ai-consultant", "leader-academy", "settings"])
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  users         User[]
+  transactions  Transaction[]
+  contracts     Contract[]
+  taxReports    TaxReport[]
+  investors     Investor[]
+  inventory     InventoryItem[]
+  leads         Lead[]
+  tasks         KanbanTask[]
+  employees     Employee[]
+  products      Product[]
+  posShifts     PosShift[]
+  posTransactions PosTransaction[]
+  invWarehouses InventoryWarehouse[]
+  invDocuments  InventoryDocument[]
+}
+
+model User {
+  id               String   @id @default(uuid())
+  name             String
+  email            String   @unique
+  password         String
+  role             String   @default("XODIM") // "OWNER", "BOSHLIQ", "XODIM", "BUXGALTER", "INVESTOR"
+  avatarBase64     String?  @db.Text
+  isEmailVerified  Boolean  @default(false)
+  verificationCode String?
+  telegramChatId   String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  companyId        String?
+  company          Company? @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  employeeProfile  Employee?
+}
+
+model Employee {
+  id             String       @id @default(uuid())
+  userId         String       @unique
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  position       String
+  salary         Float        @default(0)
+  performance    Int          @default(100)
+  yellowCards    Int          @default(0)
+  redCards       Int          @default(0)
+  plainPassword  String?      // Vaqtincha xodim parolini saqlab turish uchun
+  faceDescriptor Json?        // Face ID biometrik ma'lumotlari
+  avatarUrl      String?      // Face ID o'rnatilgandagi profil rasmi
+  attendances    Attendance[]
+  inventoryItems InventoryItem[]
+  startDate      DateTime     @default(now())
+
+  companyId      String?
+  company        Company?     @relation(fields: [companyId], references: [id], onDelete: Cascade)
+}
+
+model Attendance {
+  id               String   @id @default(uuid())
+  employeeId       String
+  employee         Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  date             DateTime @default(now())
+  checkIn          DateTime?
+  checkOut         DateTime?
+  checkInLat       Float?
+  checkInLng       Float?
+  checkOutLat      Float?
+  checkOutLng      Float?
+  deviceInfo       String? 
+  status           String   @default("PRESENT") // "PRESENT", "ABSENT", "LATE"
+  checkInPhotoUrl  String?  @db.Text // Kelganda olingan Face ID rasm URL/Base64
+  checkOutPhotoUrl String?  @db.Text // Ketganda olingan Face ID rasm URL/Base64
+  
+  @@unique([employeeId, date])
+}
+
+model Transaction {
+  id          String   @id @default(uuid())
+  description String
+  amount      Float
+  type        String   // "INCOME", "EXPENSE"
+  category    String   // "SALES", "SALARY", "TAX", "OTHER"
+  date        DateTime @default(now())
+
+  companyId   String?
+  company     Company? @relation(fields: [companyId], references: [id], onDelete: Cascade)
+}
+
+model Contract {
+  id         String   @id @default(uuid())
+  title      String
+  partyName  String
+  amount     Float?
+  status     String   @default("ACTIVE") // "ACTIVE", "COMPLETED", "TERMINATED"
+  signedDate DateTime @default(now())
+  documentUrl String?
+
+  companyId   String?
+  company     Company? @relation(fields: [companyId], references: [id], onDelete: Cascade)
+}
+
+model KnowledgeDocument {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  category  String   // "TAX_CODE", "INTERNAL_RULES", "GUIDE"
+  createdAt DateTime @default(now())
+}
+
+model TaxReport {
+  id        String   @id @default(uuid())
+  name      String
+  period    String
+  amount    Float
+  status    String   @default("PENDING") // PAID, PENDING, OVERDUE
+  dueDate   DateTime
+  createdAt DateTime @default(now())
+
+  companyId   String?
+  company     Company? @relation(fields: [companyId], references: [id], onDelete: Cascade)
+}
+
+model Investor {
+  id              String   @id @default(uuid())
+  name            String
+  currentStake    String
+  totalInvestment Float
+  lastInvestment  DateTime
+  createdAt       DateTime @default(now())
+  
+  documents       InvestorDocument[]
+
+  companyId       String?
+  company         Company? @relation(fields: [companyId], references: [id], onDelete: Cascade)
+}
+
+model InvestorDocument {
+  id          String   @id @default(uuid())
+  investorId  String
+  investor    Investor @relation(fields: [investorId], references: [id], onDelete: Cascade)
+  title       String
+  type        String   // "SAFE", "SHA", "REPORT", "OTHER"
+  url         String   // Link or file path
+  createdAt   DateTime @default(now())
+}
+
+model AcademyVideo {
+  id          String   @id @default(uuid())
+  title       String
+  duration    String
+  instructor  String
+  category    String
+  description String?  
+  videoUrl    String?  
+  thumbnail   String?  
+  createdAt   DateTime @default(now())
+}
+
+model AcademyBook {
+  id          String   @id @default(uuid())
+  title       String
+  author      String
+  readTime    String
+  description String?  
+  coverUrl    String?  
+  pdfUrl      String?
+  createdAt   DateTime @default(now())
+}
+
+model InventoryItem {
+  id               String   @id @default(uuid())
+  name             String
+  category         String   // e.g "FURNITURE", "ELECTRONICS", "VEHICLE"
+  quantity         Int      @default(1)
+  price            Float    @default(0)
+  location         String   @default("Bosh ofis")
+  status           String   @default("YAROQLI") // YAROQLI, TAMIRTALAB, YAROQSIZ
+  
+  purchaseDate     DateTime @default(now())
+  amortizationGroup String? 
+  amortizationRate Float    @default(0) 
+  modernizationCosts Float   @default(0)
+
+  responsibleId    String?  
+  responsible      Employee? @relation(fields: [responsibleId], references: [id], onDelete: SetNull)
+  lastChecked      DateTime @default(now())
+  createdAt        DateTime @default(now())
+  
+  audits           InventoryAudit[]
+
+  companyId        String?
+  company          Company?  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+}
+
+model InventoryAudit {
+  id              String        @id @default(uuid())
+  inventoryItemId String
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [id], onDelete: Cascade)
+  expectedQuantity Int
+  actualQuantity   Int
+  difference       Int          // Negative = Kamomad, Positive = Ortiqcha, 0 = Tugri
+  auditedBy        String
+  notes            String?      @db.Text
+  date             DateTime     @default(now())
+}
+
+model Lead {
+  id              String   @id @default(uuid())
+  name            String
+  companyName     String?  
+  phone           String?
+  status          String   @default("NEW") // NEW, CONTACTED, QUALIFIED, WON, LOST
+  estimatedValue  Float    @default(0)
+  aiLabel         String?
+  bonusBalance    Float    @default(0) // Regos cashback/bonus ball
+  totalDebt       Float    @default(0) // Regos Qarz
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  companyId       String?
+  company         Company? @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  supplierDocs    InventoryDocument[] @relation("SupplierDocs")
+}
+
+model KanbanTask {
+  id          String    @id @default(uuid())
+  title       String
+  description String?
+  status      String    @default("TODO") // TODO, IN_PROGRESS, DONE
+  priority    String    @default("MEDIUM") // HIGH, MEDIUM, LOW
+  assignedTo  String?   // User name or Employee ID
+  dueDate     DateTime?
+  aiNotes     String?   // AI tomonidan yozilgan maslahat/izoh
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  companyId   String?
+  company     Company?  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+}
+
+model Message {
+  id          String    @id @default(uuid())
+  senderId    String
+  recipientId String?   
+  content     String
+  type        String    @default("TEXT") // "TEXT", "STICKER", "VOICE", "FILE"
+  audioData   String?   @db.Text
+  fileData    String?   @db.Text
+  fileName    String?
+  fileType    String?
+  isRead      Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+}
+
+// -----------------------------------------------------------------------------
+// POS / REGOS Core Engine Models
+// -----------------------------------------------------------------------------
+
+model Product {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  price       Float    // Savdo narxi (Sotish)
+  costPrice   Float    @default(0) // Tan narxi (Qabul qilingan)
+  avgCostPrice Float   @default(0) // O'rtacha tan narxi (AVCO bo'yicha)
+  sku         String?  @unique
+  barcode     String?  @unique
+  quantity    Float    @default(0) // Asosiy ombordagi umumiy qoldiq
+  minQuantity Float    @default(5) // Kam qoldiq ogohlantirishi uchun
+  category    String   @default("Uncategorized")
+  unit        String   @default("dona") // kg, litr, dona, karobka
+  imageUrl    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  warehouseId String?
+  warehouse   InventoryWarehouse? @relation(fields: [warehouseId], references: [id])
+
+  companyId   String?
+  company     Company? @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  
+  posItems    PosTransactionItem[]
+  invItems    InventoryTransaction[]
+}
+
+model PosShift {
+  id           String   @id @default(uuid())
+  cashierId    String
+  openedAt     DateTime @default(now())
+  closedAt     DateTime?
+  startingCash Float   @default(0)
+  cashIn       Float   @default(0) // Xizmat kirimi
+  cashOut      Float   @default(0) // Xizmat chiqimi
+  closingCash  Float?
+  totalSales   Float   @default(0)
+  status       String   @default("OPEN") // OPEN, CLOSED
+  
+  companyId    String?
+  company      Company? @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  transactions PosTransaction[]
+}
+
+model PosTransaction {
+  id              String   @id @default(uuid())
+  shiftId         String
+  shift           PosShift @relation(fields: [shiftId], references: [id])
+  type            String   @default("SALE") // SALE, RETURN, HOLD
+  status          String   @default("COMPLETED") // COMPLETED, HELD, CANCELLED
+  paymentMethod   String   @default("CASH") // CASH, CARD, MIXED, DEBT
+  
+  totalAmount     Float
+  paidAmount      Float    @default(0)
+  cashAmount      Float    @default(0) // Split to'lovlar uchun
+  cardAmount      Float    @default(0) // Split to'lovlar uchun
+  debtAmount      Float    @default(0) // Split to'lovlar uchun
+  bonusUsed       Float    @default(0) // Ishlatilgan bonus
+  discount        Float    @default(0)
+  
+  clientId        String?  // Mijoz IDsi (qarzga yozilsa yoki ball yig'sa)
+  createdAt       DateTime @default(now())
+  
+  items           PosTransactionItem[]
+  
+  companyId       String?
+  company         Company? @relation(fields: [companyId], references: [id], onDelete: Cascade)
+}
+
+model PosTransactionItem {
+  id              String   @id @default(uuid())
+  transactionId   String
+  transaction     PosTransaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  productId       String
+  product         Product        @relation(fields: [productId], references: [id])
+  quantity        Float
+  price           Float
+  total           Float
+}
+
+// ==========================================
+// INVENTORY & WAREHOUSE MANAGEMENT (REGOS LEVEL)
+// ==========================================
+
+model InventoryWarehouse {
+  id          String   @id @default(uuid())
+  name        String
+  type        String   @default("MAIN") // MAIN, RETAIL, TRANSIT
+  address     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  companyId   String?
+  company     Company? @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  products    Product[]
+  docsOrigin  InventoryDocument[] @relation("OriginWarehouse")
+  docsDest    InventoryDocument[] @relation("DestWarehouse")
+}
+
+model InventoryDocument {
+  id              String   @id @default(uuid())
+  type            String   // PRIHOD, SPISANIYE, TRANSFER, INVENTARIZASIYA
+  status          String   @default("DRAFT") // DRAFT, IN_TRANSIT, COMPLETED, CANCELLED
+  documentNumber  String   @unique // Hujjat raqami (Invoys)
+  notes           String?
+  totalAmount     Float    @default(0)
+  
+  originId        String?
+  originWarehouse InventoryWarehouse? @relation("OriginWarehouse", fields: [originId], references: [id])
+  
+  destId          String?
+  destWarehouse   InventoryWarehouse? @relation("DestWarehouse", fields: [destId], references: [id])
+  
+  supplierId      String?
+  supplier        Lead?    @relation("SupplierDocs", fields: [supplierId], references: [id]) // Xaridor/Yetkazuvchi CRM ga ulangan
+  
+  createdAt       DateTime @default(now())
+  createdBy       String   // userId (Kassir/Omborchi)
+  updatedAt       DateTime @updatedAt
+
+  companyId       String?
+  company         Company? @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  items           InventoryTransaction[]
+}
+
+model InventoryTransaction {
+  id              String   @id @default(uuid())
+  documentId      String
+  document        InventoryDocument @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  
+  productId       String
+  product         Product @relation(fields: [productId], references: [id])
+  
+  quantityChange  Float    // + qabul, - chiqim
+  countedQty      Float?   // Inventarizatsiya uchun: Haqiqiy sanalgan miqdor
+  expectedQty     Float?   // Inventarizatsiya uchun: Baza bo'yicha kutilgan miqdor
+  costPrice       Float    @default(0) // Shu harakat paytidagi tan narx
+  totalPrice      Float    @default(0) // qty * costPrice
+  notes           String?
+  
+  createdAt       DateTime @default(now())
+}

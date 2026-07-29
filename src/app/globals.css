@@ -1,0 +1,1045 @@
+:root {
+  /* ==========================================
+     GOOGLE STITCH DESIGN SYSTEM (boshqaruvchi-ai-v1)
+     ========================================== */
+  --stitch-bg-dark: #07090e;
+  --stitch-surface: rgba(15, 18, 28, 0.75);
+  --stitch-border: rgba(255, 255, 255, 0.1);
+  --stitch-border-glow: rgba(0, 242, 254, 0.35);
+  --stitch-accent-cyan: #00f2fe;
+  --stitch-accent-purple: #8a2be2;
+  --stitch-accent-green: #10b981;
+  --stitch-text-primary: #ffffff;
+  --stitch-text-secondary: rgba(226, 232, 240, 0.75);
+
+  /* --- BRAND COLORS --- */
+  --primary-rgb: 0, 0, 0;
+  /* Base Black/Dark */
+  --accent-base-rgb: 99, 102, 241;
+  /* #6366F1 - Indigo 500 (Primary Action) */
+  --accent-hover-rgb: 79, 70, 229;
+  /* #4F46E5 - Indigo 600 */
+  --success-rgb: 16, 185, 129;
+  /* #10B981 - Emerald 500 */
+  --warning-rgb: 245, 158, 11;
+  /* #F59E0B - Amber 500 */
+  --danger-rgb: 239, 68, 68;
+  /* #EF4444 - Red 500 */
+  --info-rgb: 59, 130, 246;
+  /* #3B82F6 - Blue 500 */
+
+  /* --- DARK THEME BACKGROUNDS & SURFACES --- */
+  --bg-color: #07090e;
+  --surface-color: rgba(15, 18, 28, 0.75);
+  --surface-hover: #1f2937;
+  --surface-active: #374151;
+}
+
+:root {
+  /* --- TYPOGRAPHY COLORS --- */
+  --text-primary: #ffffff;
+  /* High contrast white */
+  --text-secondary: #94a3b8;
+  /* Slate 400 - Subtitles, icons */
+  --text-muted: #64748b;
+  /* Slate 500 - Disabled text, placeholders */
+
+  /* --- BORDERS & DIVIDERS --- */
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-color: rgba(255, 255, 255, 0.12);
+  --border-strong: rgba(255, 255, 255, 0.2);
+
+  /* --- PREMIUM UTILITIES --- */
+  --primary-color: rgb(var(--accent-base-rgb));
+  --error-color: rgb(var(--danger-rgb));
+  --warning-color: rgb(var(--warning-rgb));
+  --success-color: rgb(var(--success-rgb));
+
+  /* Delicate Glass Borders */
+  --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+  --glass-border-light: 1px solid rgba(255, 255, 255, 0.15);
+
+  /* Shadows - Layered for depth */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 0 20px -5px rgba(var(--accent-base-rgb), 0.4);
+
+  /* Radii - Slightly rounded for modern SaaS feel */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  /* Snappy Transitions */
+  --transition-fast: 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================
+   LIGHT-GLASS THEME — VARIABLE OVERRIDES
+   Must be AFTER :root to win specificity
+   ========================================== */
+[data-theme="light-glass"] {
+  --bg-color: #f1f5f9;
+  --surface-color: rgba(255, 255, 255, 0.7);
+  --surface-hover: rgba(255, 255, 255, 0.9);
+  --surface-active: rgba(241, 245, 249, 1);
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --border-subtle: rgba(0, 0, 0, 0.04);
+  --border-color: rgba(0, 0, 0, 0.08);
+  --border-strong: rgba(0, 0, 0, 0.12);
+  --glass-border: 1px solid rgba(0, 0, 0, 0.06);
+  --glass-border-light: 1px solid rgba(0, 0, 0, 0.1);
+  --table-header-bg: rgba(0, 0, 0, 0.03);
+  --background-color: rgba(255, 255, 255, 0.92);
+}
+
+/* ==========================================
+   GLOBAL RESETS & TYPOGRAPHY
+   ========================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Smooth theme switching on ALL elements */
+*,
+*::before,
+*::after {
+  transition-property: background-color, border-color, color, box-shadow, background-image;
+  transition-duration: 0.35s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+  font-family: var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  /* Executive tighter tracking */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-image:
+    radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.04), transparent 30%),
+    radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.03), transparent 30%);
+  background-attachment: fixed;
+  transition: background-color 0.4s ease, background-image 0.4s ease;
+}
+
+[data-theme="light-glass"] body {
+  background-image: url('/bg-light.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* Animated subtle gradient overlay for depth */
+[data-theme="light-glass"] body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse at 20% 80%, rgba(99, 102, 241, 0.04), transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(16, 185, 129, 0.03), transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+  animation: ambientShift 15s ease-in-out infinite alternate;
+}
+
+@keyframes ambientShift {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
+}
+
+/* MAXIMIZE IMAGE AND SVG QUALITY */
+img, svg {
+  image-rendering: high-quality;
+  image-rendering: -webkit-optimize-contrast;
+  shape-rendering: geometricPrecision;
+  transform: translateZ(0); /* Hardware acceleration to avoid blur */
+}
+
+/* Heading Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-outfit), var(--font-sans);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+/* Links & Interactive Elements */
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+input,
+select,
+textarea {
+  font-family: inherit;
+  color: var(--text-primary);
+  outline: none;
+}
+
+/* Custom Minimalist Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.3);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.6);
+}
+
+/* ==========================================
+   UTILITY CLASSES & DESIGN TOKENS
+   ========================================== */
+
+/* The Core Card - Premium Glassmorphism */
+.card {
+  background: rgba(17, 24, 39, 0.6);
+  /* --surface-color with opacity */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 1.5rem;
+  border: var(--glass-border);
+  border-top: var(--glass-border-light);
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(17, 24, 39, 0.8);
+}
+
+/* Subtle inner glow for premium feel */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  pointer-events: none;
+}
+
+/* Advanced Buttons */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1.25rem;
+  background: linear-gradient(180deg, rgba(99, 102, 241, 1) 0%, rgba(79, 70, 229, 1) 100%);
+  color: white;
+  font-weight: 500;
+  font-family: var(--font-sans);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  gap: 0.5rem;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 0 10px rgba(99, 102, 241, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Secondary/Outline Buttons */
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1.25rem;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-primary);
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  border: var(--glass-border);
+  gap: 0.5rem;
+}
+
+.btn-outline:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Secondary Buttons */
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1.25rem;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  gap: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.btn-secondary:active {
+  transform: translateY(1px);
+}
+
+/* Inputs */
+.input-premium {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  transition: all var(--transition-fast);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.input-premium:focus {
+  border-color: rgb(var(--accent-base-rgb));
+  box-shadow: 0 0 0 2px rgba(var(--accent-base-rgb), 0.2), inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.input-premium::placeholder {
+  color: var(--text-muted);
+}
+
+/* Gradients */
+.text-gradient {
+  background: linear-gradient(to right, #e2e8f0, #94a3b8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-primary {
+  background: linear-gradient(135deg, #a5b4fc, #6366f1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Animations */
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Table Enhancements */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: var(--radius-md);
+  border: var(--glass-border);
+  background: rgba(0, 0, 0, 0.1);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 1rem;
+  text-align: left;
+  border-bottom: var(--glass-border);
+}
+
+td {
+  padding: 1rem;
+  color: var(--text-primary);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  font-size: 0.95rem;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* ==========================================
+   RESPONSIVE MOBILE FIRST FLUIDITY 
+   ========================================== */
+
+@media (max-width: 1024px) {
+  .card {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+
+  html,
+  body {
+    font-size: 14px;
+    /* Slightly scale down base rem */
+  }
+
+  .card {
+    padding: 1rem;
+    border-radius: var(--radius-md);
+  }
+
+  .btn-primary,
+  .btn-outline {
+    width: 100%;
+    /* Full width buttons on mobile */
+    justify-content: center;
+    padding: 0.8rem 1.25rem;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 8vw, 2.5rem);
+  }
+
+  h2 {
+    font-size: clamp(1.75rem, 6vw, 2.25rem);
+  }
+
+  h3 {
+    font-size: clamp(1.5rem, 5vw, 1.75rem);
+  }
+
+  /* Force sidebars to be hidden or overlay on small screens by default */
+  .desktop-sidebar {
+    display: none !important;
+  }
+
+  /* Make tables scroll natively without bleeding */
+  .table-wrapper {
+    margin: 0 -1rem;
+    /* Full bleed on edge */
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+}
+
+@media (max-width: 480px) {
+
+  html,
+  body {
+    font-size: 13px;
+    /* Extra small fluid scaling */
+  }
+
+  .card {
+    padding: 0.8rem;
+  }
+}
+
+/* ══════════════════════════════════════════
+   SELECT / OPTION / OPTGROUP — Dark Theme
+   ══════════════════════════════════════════ */
+select {
+  background-color: #111827 !important;
+  color: #e2e8f0 !important;
+}
+
+select option {
+  background-color: #111827;
+  color: #e2e8f0;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+}
+
+select optgroup {
+  background-color: #0b0f19;
+  color: #93c5fd;
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 4px 0;
+}
+
+select option:checked,
+select option:hover {
+  background-color: #1e3a5f;
+  color: #ffffff;
+}
+
+input[type="number"] {
+  color-scheme: dark;
+}
+
+input::placeholder {
+  color: rgba(148, 163, 184, 0.5);
+}
+
+/* ==========================================
+   AI PREMIUM DESIGN ADDITIONS
+   ========================================== */
+
+/* Modern Mesh Gradient Background */
+.mesh-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+  background-color: var(--bg-color);
+  opacity: 0.6;
+}
+
+.mesh-bg::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 30% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+              radial-gradient(circle at 70% 70%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 50% 10%, rgba(59, 130, 246, 0.1) 0%, transparent 40%);
+  filter: blur(80px);
+  animation: meshRotate 20s linear infinite;
+}
+
+@keyframes meshRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Enhanced Glass Card with Internal Glow */
+.glass-card-premium {
+  background: rgba(17, 24, 39, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    0 4px 30px rgba(0, 0, 0, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 0.05);
+}
+
+/* AI Message Bubble - Assistant */
+.bubble-ai {
+  background: rgba(17, 24, 39, 0.6);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), inset 0 0 10px rgba(16, 185, 129, 0.05);
+  position: relative;
+}
+
+.bubble-ai::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), transparent, rgba(16, 185, 129, 0.1));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* AI Message Bubble - User */
+.bubble-user {
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.9), rgba(67, 56, 202, 0.9));
+  box-shadow: 0 8px 30px rgba(79, 70, 229, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Markdown Styling for AI responses */
+.prose-ai {
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.prose-ai p { margin-bottom: 0.75rem; }
+.prose-ai p:last-child { margin-bottom: 0; }
+.prose-ai strong { color: #fff; font-weight: 600; }
+.prose-ai ul, .prose-ai ol { margin: 0.5rem 0 1rem 1.25rem; }
+.prose-ai li { margin-bottom: 0.25rem; }
+.prose-ai code { background: rgba(0, 0, 0, 0.3); padding: 0.2rem 0.4rem; border-radius: 4px; font-family: monospace; font-size: 0.85em; }
+
+/* ==========================================
+   LIGHT-GLASS THEME — GLOBAL OVERRIDES
+   ========================================== */
+
+[data-theme="light-glass"] .card {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(24px) saturate(1.2);
+  -webkit-backdrop-filter: blur(24px) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.03),
+    0 1px 3px rgba(0, 0, 0, 0.02),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+[data-theme="light-glass"] .card:hover {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light-glass"] .card::after {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+[data-theme="light-glass"] .input-premium {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: #0f172a;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light-glass"] .input-premium:focus {
+  border-color: rgb(var(--accent-base-rgb));
+  box-shadow: 0 0 0 2px rgba(var(--accent-base-rgb), 0.15), inset 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light-glass"] .input-premium::placeholder {
+  color: #94a3b8;
+}
+
+[data-theme="light-glass"] .btn-secondary {
+  background: rgba(0, 0, 0, 0.04);
+  color: #1e293b;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light-glass"] .btn-secondary:hover {
+  background: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light-glass"] .btn-outline {
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: #1e293b;
+}
+
+[data-theme="light-glass"] .btn-outline:hover {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light-glass"] select {
+  background-color: rgba(255, 255, 255, 0.7) !important;
+  color: #1e293b !important;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light-glass"] select option {
+  background-color: #ffffff;
+  color: #1e293b;
+}
+
+[data-theme="light-glass"] select optgroup {
+  background-color: #f8fafc;
+  color: #4338ca;
+}
+
+[data-theme="light-glass"] th {
+  background: rgba(0, 0, 0, 0.02);
+  color: #475569;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light-glass"] td {
+  color: #0f172a;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light-glass"] tr:hover td {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+[data-theme="light-glass"] input[type="number"] {
+  color-scheme: light;
+}
+
+[data-theme="light-glass"] .table-wrapper {
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light-glass"] ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light-glass"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="light-glass"] .prose-ai strong { color: #1e293b; }
+[data-theme="light-glass"] .prose-ai code { background: rgba(0, 0, 0, 0.06); color: #334155; }
+
+[data-theme="light-glass"] .glass-card-premium {
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+[data-theme="light-glass"] .bubble-ai {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(16, 185, 129, 0.15);
+}
+
+[data-theme="light-glass"] .text-gradient {
+  background: linear-gradient(to right, #1e293b, #475569);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-theme="light-glass"] .mesh-bg {
+  background-color: #f1f5f9;
+}
+
+/* ==========================================
+   LIGHT-GLASS — LOADING SCREEN
+   ========================================== */
+[data-theme="light-glass"] .loading-shimmer-text {
+  background: linear-gradient(to right, #1e293b 20%, #6366f1 40%, #6366f1 60%, #1e293b 80%) !important;
+  background-size: 200% auto !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* ==========================================
+   LIGHT-GLASS — MODALS & OVERLAYS (Inline)
+   Fixes: var(--background-color) used in modals
+   ========================================== */
+[data-theme="light-glass"] {
+  --background-color: rgba(255, 255, 255, 0.92);
+}
+
+/* ==========================================
+   LIGHT-GLASS — TOAST NOTIFICATIONS
+   ========================================== */
+[data-theme="light-glass"] [role="status"] {
+  background: rgba(255, 255, 255, 0.9) !important;
+  color: #0f172a !important;
+  border: 1px solid rgba(0, 0, 0, 0.06) !important;
+}
+
+/* ==========================================
+   LIGHT-GLASS — COMMAND CENTER / SEARCH 
+   ========================================== */
+[data-theme="light-glass"] [data-command-center] {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* ==========================================
+   LIGHT-GLASS — PASSWORD & SECURITY FORMS
+   ========================================== */
+[data-theme="light-glass"] .switch input:checked + .slider {
+  background-color: rgba(99, 102, 241, 0.15);
+}
+
+/* ==========================================================================
+   LIGHT-GLASS — DEEP INLINE STYLE OVERRIDES (!important required)
+   These override hardcoded inline styles throughout components.
+   ========================================================================== */
+
+/* --- H3 values with color: "white" inline (stat numbers like "2 ta", "100%") --- */
+[data-theme="light-glass"] .card h3,
+[data-theme="light-glass"] .card .stat-value,
+[data-theme="light-glass"] .hover-scale h3 {
+  color: var(--text-primary) !important;
+}
+
+/* --- Text gradients (headings with white-to-gray gradient) --- */
+[data-theme="light-glass"] .text-3xl,
+[data-theme="light-glass"] h2[style*="WebkitBackgroundClip"],
+[data-theme="light-glass"] h2[style*="-webkit-background-clip"] {
+  background: linear-gradient(to right, #0f172a, #475569) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* --- Table container with dark gradient background --- */
+[data-theme="light-glass"] .card[style*="rgba(20"],
+[data-theme="light-glass"] .card[style*="rgba(10"],
+[data-theme="light-glass"] .card[style*="rgba(15"] {
+  background: rgba(255, 255, 255, 0.55) !important;
+  border: 1px solid rgba(0, 0, 0, 0.06) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03) !important;
+  backdrop-filter: blur(20px) !important;
+}
+
+/* --- All inline dark surfaces: rgba(0,0,0,0.2), rgba(0,0,0,0.3) etc. --- */
+[data-theme="light-glass"] div[style*="rgba(0, 0, 0, 0.2)"],
+[data-theme="light-glass"] div[style*="rgba(0,0,0,0.2)"],
+[data-theme="light-glass"] div[style*="rgba(0, 0, 0, 0.3)"],
+[data-theme="light-glass"] div[style*="rgba(0,0,0,0.3)"] {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+  border-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+/* --- Form inputs with dark backgrounds: rgba(15, 23, 42, 0.4) --- */
+[data-theme="light-glass"] input[style*="rgba(15"],
+[data-theme="light-glass"] textarea[style*="rgba(15"],
+[data-theme="light-glass"] select[style*="rgba(15"],
+[data-theme="light-glass"] input[style*="15, 23, 42"],
+[data-theme="light-glass"] textarea[style*="15, 23, 42"] {
+  background-color: rgba(255, 255, 255, 0.7) !important;
+  color: #0f172a !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* --- Overlay/modal dark backgrounds: rgba(15,23,42,0.95) or rgba(0,0,0,0.5) --- */
+[data-theme="light-glass"] div[style*="rgba(15, 23, 42, 0.95)"],
+[data-theme="light-glass"] div[style*="rgba(15,23,42,0.95)"],
+[data-theme="light-glass"] div[style*="rgba(15, 23, 42, 0.8)"],
+[data-theme="light-glass"] div[style*="rgba(15,23,42,0.8)"],
+[data-theme="light-glass"] div[style*="rgba(15, 23, 42, 0.6)"],
+[data-theme="light-glass"] div[style*="rgba(15,23,42,0.6)"],
+[data-theme="light-glass"] div[style*="rgba(15, 23, 42, 0.4)"],
+[data-theme="light-glass"] div[style*="rgba(15,23,42,0.4)"],
+[data-theme="light-glass"] div[style*="rgba(15, 23, 42, 0.3)"],
+[data-theme="light-glass"] div[style*="rgba(15,23,42,0.3)"],
+[data-theme="light-glass"] div[style*="rgba(15, 23, 42, 0.2)"],
+[data-theme="light-glass"] div[style*="rgba(15,23,42,0.2)"] {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  backdrop-filter: blur(16px) !important;
+}
+
+/* --- Tables: progress bar tracks with rgba(255,255,255,0.05) bg --- */
+[data-theme="light-glass"] div[style*="backgroundColor: \"rgba(255,255,255,0.05)\""],
+[data-theme="light-glass"] div[style*="rgba(255, 255, 255, 0.05)"],
+[data-theme="light-glass"] div[style*="rgba(255,255,255,0.05)"] {
+  background-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+/* --- KPI/Performance containers inside cards --- */
+[data-theme="light-glass"] .card div[style*="rgba(255, 255, 255, 0.02)"],
+[data-theme="light-glass"] .card div[style*="rgba(255,255,255,0.02)"] {
+  background: rgba(0, 0, 0, 0.02) !important;
+  border-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+/* --- White border dividers inside card rows --- */
+[data-theme="light-glass"] div[style*="rgba(255,255,255,0.1)"],
+[data-theme="light-glass"] div[style*="rgba(255, 255, 255, 0.1)"] {
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* --- Color overrides for white text in dark stat cards --- */
+[data-theme="light-glass"] .hover-scale h3[style*="color: \"white\""],
+[data-theme="light-glass"] h3[style*="white"],
+[data-theme="light-glass"] span[style*="color: \"white\""] {
+  color: #0f172a !important;
+}
+
+/* --- Notification badges with dark borders --- */
+[data-theme="light-glass"] div[style*="border: \"2px solid rgba(15"] {
+  border-color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* --- Prose/markdown in AI dark mode --- */
+[data-theme="light-glass"] .prose-ai strong {
+  color: #0f172a !important;
+}
+[data-theme="light-glass"] .prose-ai code {
+  background: rgba(99, 102, 241, 0.08) !important;
+  color: #312e81 !important;
+}
+[data-theme="light-glass"] .prose-ai {
+  color: #334155 !important;
+}
+
+/* --- Chat tooltip/dropdown dark backgrounds --- */
+[data-theme="light-glass"] div[style*="background: \"rgba(15, 23, 42, 0.9"],
+[data-theme="light-glass"] div[style*="background: 'rgba(15, 23, 42, 0.9"] {
+  background: rgba(255, 255, 255, 0.92) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* --- Fixed/absolute overlays (modal backdrops) --- */
+[data-theme="light-glass"] div[style*="position: \"fixed\""][style*="rgba(0, 0, 0, 0.5)"],
+[data-theme="light-glass"] div[style*="position: \"fixed\""][style*="rgba(0,0,0,0.5)"] {
+  background-color: rgba(255, 255, 255, 0.6) !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+/* --- Select/PremiumSelect dark backgrounds --- */
+[data-theme="light-glass"] div[style*="rgba(0,0,0,0.2)"] {
+  background: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* --- Table header/row borders --- */
+[data-theme="light-glass"] tr[style*="borderBottom"] {
+  border-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+/* --- Dark gradient backgrounds on containers --- */
+[data-theme="light-glass"] div[style*="linear-gradient(180deg, rgba(20"] {
+  background: rgba(255, 255, 255, 0.55) !important;
+}
+
+/* --- ChangePasswordForm dark section --- */
+[data-theme="light-glass"] div[style*="rgba(15, 23, 42, 0.4)"] {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+  border-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+/* --- Dark #f9fafb text in inputs for light theme should be darker --- */
+[data-theme="light-glass"] input[style*="#f9fafb"],
+[data-theme="light-glass"] textarea[style*="#f9fafb"] {
+  color: #0f172a !important;
+}
+
+/* --- BookViewer dark overlays (these are fullscreen readers, keep dark) --- */
+
+/* --- Owner Dashboard chart tooltips --- */
+[data-theme="light-glass"] .recharts-tooltip-wrapper {
+  filter: none !important;
+}
+
+/* --- Map container (keep as is - maps always dark) --- */
+
+/* --- AI Tax Consultant dark inputs and sections --- */
+[data-theme="light-glass"] div[style*="background: 'rgba(15,23,42"] {
+  background: rgba(255, 255, 255, 0.7) !important;
+  border-color: rgba(0, 0, 0, 0.06) !important;
+}
+[data-theme="light-glass"] div[style*="background: 'rgba(0,0,0,0.3'"] {
+  background: rgba(0, 0, 0, 0.04) !important;
+}
+
+/* --- Ensure all text is proper contrast --- */
+[data-theme="light-glass"] .card p,
+[data-theme="light-glass"] .card span,
+[data-theme="light-glass"] .card td,
+[data-theme="light-glass"] .card th,
+[data-theme="light-glass"] .card label,
+[data-theme="light-glass"] .card div {
+  --text-primary-fallback: #0f172a;
+}
+
+/* ==========================================
+   ENTERPRISE FINANCIAL TOKENS
+   ========================================== */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.92em;
+  letter-spacing: -0.03em;
+}
+
+.financial-metric {
+  font-family: var(--font-mono), monospace;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.04em;
+}
+
+.badge-glow-success {
+  background: rgba(16, 185, 129, 0.1);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
+  font-variant-numeric: tabular-nums;
+  font-family: var(--font-mono), monospace;
+}
+
+.badge-glow-error {
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.15);
+  font-variant-numeric: tabular-nums;
+  font-family: var(--font-mono), monospace;
+}
+
+.pulsate-dot-green {
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+

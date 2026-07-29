@@ -1,0 +1,150 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    height: 100%;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-outfit), var(--font-sans);
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+}
+
+.titleIcon {
+    color: var(--primary-color);
+}
+
+.subtitle {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin: 0;
+    font-family: var(--font-sans);
+    line-height: 1.4;
+}
+
+.gridContainer {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+    flex: 1;
+}
+
+.mainColumn {
+    display: flex;
+    flex-direction: column;
+}
+
+.sideColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Base Card Header Tweaks for Tax Module */
+.card-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border-subtle);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--text-primary);
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+.responsiveCard {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 520px);
+    min-height: 400px;
+}
+
+.scrollableContent {
+    flex: 1;
+    overflow-y: auto;
+}
+
+@media (max-width: 1024px) {
+    .gridContainer {
+        grid-template-columns: 1fr;
+    }
+    
+    .responsiveCard {
+        height: auto;
+        min-height: 500px;
+    }
+}
+
+@media (max-width: 640px) {
+    .header {
+        align-items: flex-start;
+    }
+    
+    .title {
+        font-size: 1.5rem;
+    }
+    
+    .subtitle {
+        font-size: 0.85rem;
+    }
+    
+    .responsiveCard {
+        min-height: 400px;
+    }
+}
+
+.taxCard {
+    padding: 1.25rem;
+    border-radius: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    position: relative;
+    overflow: visible;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    min-height: 240px;
+    justify-content: space-between;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: var(--surface-color);
+    z-index: 1;
+}
+
+/* Elevate card when user is interacting with dropdowns inside it */
+.taxCard:focus-within {
+    z-index: 50;
+}
+
+.taxCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.15);
+    z-index: 40;
+}
+
+.taxCardActive {
+    background: var(--background-color);
+    backdrop-filter: blur(12px);
+    border-color: var(--border-color);
+    z-index: 10;
+}
+
+.taxCardActive:hover {
+    border-color: var(--primary-color);
+}

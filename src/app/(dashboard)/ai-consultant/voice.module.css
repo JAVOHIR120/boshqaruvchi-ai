@@ -1,0 +1,406 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 500px;
+    background: linear-gradient(180deg, rgba(10, 10, 20, 0.95) 0%, rgba(15, 15, 30, 0.98) 50%, rgba(5, 5, 15, 1) 100%);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    position: relative;
+    color: var(--text-primary);
+}
+
+/* ═══ CALL HEADER ═══ */
+.callHeader {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(10px);
+}
+
+.callAvatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-shrink: 0;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+
+.avatarGlow {
+    position: absolute;
+    inset: -3px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.4), rgba(139, 92, 246, 0.4));
+    filter: blur(8px);
+    z-index: -1;
+}
+
+.avatarText {
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: white;
+    letter-spacing: -1px;
+}
+
+.callInfo {
+    flex: 1;
+}
+
+.callerName {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--text-primary);
+}
+
+.callerRole {
+    margin: 2px 0 0 0;
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 500;
+}
+
+.durationBadge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #94a3b8;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 1px;
+}
+
+.liveDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #22c55e;
+    animation: livePulse 1.5s infinite;
+}
+
+@keyframes livePulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5); }
+    50% { opacity: 0.7; box-shadow: 0 0 0 4px rgba(34, 197, 94, 0); }
+}
+
+/* ═══ MAIN AREA ═══ */
+.mainArea {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+    overflow-y: auto;
+    gap: 1.5rem;
+}
+
+/* ═══ VISUALIZER ═══ */
+.visualizerContainer {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Background rings */
+.ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    transition: all 0.5s ease;
+}
+.ring1 { width: 280px; height: 280px; }
+.ring2 { width: 340px; height: 340px; }
+.ring3 { width: 400px; height: 400px; }
+.ringActive.ring1 { border-color: rgba(99, 102, 241, 0.12); }
+.ringActive.ring2 { border-color: rgba(99, 102, 241, 0.07); }
+.ringActive.ring3 { border-color: rgba(99, 102, 241, 0.03); }
+
+/* Main orb */
+.orb {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #2d2d44, #14141f);
+    box-shadow:
+        0 0 40px rgba(0, 0, 0, 0.6),
+        inset 0 0 30px rgba(255, 255, 255, 0.03),
+        0 0 0 1px rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.orbListening {
+    background: radial-gradient(circle at 35% 35%, #166534, #052e16);
+    box-shadow:
+        0 0 50px rgba(34, 197, 94, 0.2),
+        inset 0 0 30px rgba(34, 197, 94, 0.1),
+        0 0 0 1px rgba(34, 197, 94, 0.2);
+    animation: orbPulseGreen 2s ease-in-out infinite;
+}
+
+.orbSpeaking {
+    background: radial-gradient(circle at 35% 35%, #312e81, #1e1b4b);
+    box-shadow:
+        0 0 60px rgba(99, 102, 241, 0.3),
+        inset 0 0 30px rgba(99, 102, 241, 0.15),
+        0 0 0 1px rgba(99, 102, 241, 0.3);
+    animation: orbPulseBlue 1.5s ease-in-out infinite;
+}
+
+@keyframes orbPulseGreen {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+}
+
+@keyframes orbPulseBlue {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.06); }
+}
+
+.orbInner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.jarvisLetter {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.15);
+    letter-spacing: -2px;
+}
+
+/* Ripples */
+.ripple {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    animation: rippleAnim 2s linear infinite;
+    pointer-events: none;
+}
+
+.rippleGreen { border: 1.5px solid rgba(34, 197, 94, 0.25); }
+.rippleBlue { border: 1.5px solid rgba(99, 102, 241, 0.3); }
+
+@keyframes rippleAnim {
+    0% { width: 130px; height: 130px; opacity: 0.7; }
+    100% { width: 320px; height: 320px; opacity: 0; }
+}
+
+/* ═══ STATUS ═══ */
+.statusContainer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.statusDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    transition: background 0.3s;
+}
+.statusGreen { background: #22c55e; box-shadow: 0 0 8px rgba(34, 197, 94, 0.4); }
+.statusBlue { background: #6366f1; box-shadow: 0 0 8px rgba(99, 102, 241, 0.4); }
+.statusGray { background: #475569; }
+
+.statusText {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.3px;
+}
+
+/* ═══ ERROR ═══ */
+.errorBox {
+    background: rgba(239, 68, 68, 0.08);
+    color: #fca5a5;
+    padding: 0.75rem 1.25rem;
+    border-radius: 10px;
+    border: 1px solid rgba(239, 68, 68, 0.15);
+    font-size: 0.85rem;
+    text-align: center;
+    max-width: 500px;
+}
+
+/* ═══ TRANSCRIPT ═══ */
+.transcriptArea {
+    width: 100%;
+    max-width: 550px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.transcriptContent {
+    padding: 1rem 1.5rem;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+}
+
+/* Speaking bars animation */
+.speakingIndicator {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    height: 20px;
+}
+
+.bar {
+    width: 3px;
+    height: 6px;
+    background: #6366f1;
+    border-radius: 2px;
+    animation: barAnim 0.8s ease-in-out infinite;
+}
+.bar:nth-child(1) { animation-delay: 0.0s; }
+.bar:nth-child(2) { animation-delay: 0.1s; }
+.bar:nth-child(3) { animation-delay: 0.2s; }
+.bar:nth-child(4) { animation-delay: 0.3s; }
+.bar:nth-child(5) { animation-delay: 0.4s; }
+
+@keyframes barAnim {
+    0%, 100% { height: 6px; }
+    50% { height: 18px; }
+}
+
+/* ═══ CONTROLS ═══ */
+.controls {
+    padding: 1.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.micInfo {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.35);
+    font-weight: 500;
+}
+
+.callButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.9rem 2.5rem;
+    border-radius: 50px;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    letter-spacing: 0.5px;
+}
+
+.callButtonStart {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: white;
+    box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);
+}
+.callButtonStart:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 30px rgba(34, 197, 94, 0.4);
+}
+
+.callButtonEnd {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+    box-shadow: 0 4px 20px rgba(239, 68, 68, 0.3);
+}
+.callButtonEnd:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 30px rgba(239, 68, 68, 0.4);
+}
+
+/* ==========================================
+   LIGHT-GLASS THEME OVERRIDES
+   ========================================== */
+:global([data-theme="light-glass"]) .container {
+    background: linear-gradient(180deg, rgba(241, 245, 249, 0.95) 0%, rgba(248, 250, 252, 0.98) 50%, rgba(241, 245, 249, 1) 100%);
+}
+
+:global([data-theme="light-glass"]) .callHeader {
+    background: rgba(0, 0, 0, 0.02);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+:global([data-theme="light-glass"]) .callerName {
+    color: #1e293b;
+}
+
+:global([data-theme="light-glass"]) .callerRole {
+    color: #64748b;
+}
+
+:global([data-theme="light-glass"]) .durationBadge {
+    background: rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    color: #475569;
+}
+
+:global([data-theme="light-glass"]) .ring {
+    border-color: rgba(0, 0, 0, 0.04);
+}
+
+:global([data-theme="light-glass"]) .statusText {
+    color: #64748b;
+}
+
+:global([data-theme="light-glass"]) .transcriptContent {
+    background: rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    color: #334155;
+}
+
+:global([data-theme="light-glass"]) .controls {
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    background: rgba(0, 0, 0, 0.02);
+}
+
+:global([data-theme="light-glass"]) .micInfo {
+    color: #94a3b8;
+}
