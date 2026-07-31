@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import Script from "next/script";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import NickelHero from "@/components/NickelHero";
 import { Bot, BarChart3, Clock, ShieldCheck, Zap, Globe, ArrowRight, Users, Target, Rocket, Award, CheckCircle, Star, Crown, Building2, TrendingUp, Sparkles } from "lucide-react";
@@ -16,6 +16,15 @@ export default function Home() {
   const cloudsRef = useRef<HTMLDivElement>(null);
   const [cloudsEffect, setCloudsEffect] = useState<any>(null);
   const [isYearly, setIsYearly] = useState(false);
+
+  const companyRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: companyScroll } = useScroll({
+    target: companyRef,
+    offset: ["start end", "end start"],
+  });
+  const videoY = useTransform(companyScroll, [0, 1], ["-15%", "15%"]);
+  const videoScale = useTransform(companyScroll, [0, 0.5, 1], [1.08, 1.2, 1.08]);
+  const videoOpacity = useTransform(companyScroll, [0, 0.25, 0.75, 1], [0.3, 0.75, 0.75, 0.3]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -285,7 +294,26 @@ export default function Home() {
       {/* ==========================================
           SECTION 4 — KOMPANIYA (Company) - BENTO GRID
           ========================================== */}
-      <section className={styles.companySection} id="company">
+      <section className={styles.companySection} id="company" ref={companyRef}>
+        {/* Parallax Video Background */}
+        <div className={styles.videoBgContainer}>
+          <motion.div 
+            className={styles.videoParallaxWrapper}
+            style={{ y: videoY, scale: videoScale, opacity: videoOpacity }}
+          >
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className={styles.bgVideo}
+            >
+              <source src="/videos/jet_bg.mp4" type="video/mp4" />
+            </video>
+          </motion.div>
+          <div className={styles.videoOverlay}></div>
+        </div>
+
         {/* Animated Background Mesh & Grid */}
         <div className={styles.animatedBgContainer}>
           <div className={styles.bgGrid}></div>
